@@ -90,8 +90,8 @@ begin
   http.HTTPMethod('GET', 'http://m.vk.com/login');
   html:=UTF8toAnsi(str(http));
   ip_h:=pars(html,'ip_h=','&');
-  log:='Zaj87@bk.ru';
-  pas:='Random43Dos431';
+  log:='';
+  pas:='';
   s:='email='+log+'&pass='+pas;
   HTTP.Document.Clear;
   HTTP.Headers.Clear;
@@ -110,7 +110,7 @@ begin
   sl.LoadFromStream(http.Document);
   arr:=exparse(sl.Text);
   for i:=0 to 49 do writeln(arr[i,1]);
-  {http.HTTPMethod('get','http://oauth.vk.com/authorize?client_id=4193783&display=touch&scope=&redirect_uri=http://oauth.vk.com/blank.html&response_type=token');
+  {
   url:=GetLocation(http.Headers);
   http.HTTPMethod('post',url);
   url:=GetLocation(http.Headers);
