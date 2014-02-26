@@ -10,12 +10,6 @@ type
   TArr=array[0..60,0..8] of string;
 
 
-{
-const
-  ru1 = 'а-опрстуфхцчшщъыьэюя+';
-  ru2 = 'А-ОПРСТУФХЦЧШЩЪЫЬЭЮЯ+';
-  sym = '\.\:\_\!\&\" ';
-}
 
 function Exparse(S:string):Tarr;
 var
@@ -111,7 +105,7 @@ begin
 
   sl.LoadFromStream(http.Document);
   arr:=exparse(sl.Text);
-  for i:=0 to 49 do if arr[i,1]='''pdf''' then writeln('http://vk.com/doc'+arr[i,4]+'_'+arr[i,0]);
+  for i:=0 to 49 do if arr[i,1]='''pdf''' then writeln(arr[i,2]+' '+'http://vk.com/doc'+arr[i,4]+'_'+arr[i,0]);
   {http.HTTPMethod('get','http://oauth.vk.com/authorize?client_id=4193783&display=touch&scope=&redirect_uri=http://oauth.vk.com/blank.html&response_type=token');
   url:=GetLocation(http.Headers);
   http.HTTPMethod('post',url);
