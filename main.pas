@@ -45,6 +45,8 @@ Result:=a;
 end;
 
 
+
+
 function str(http:thttpsend):string;
   var
    t:tstringlist;
@@ -90,8 +92,8 @@ begin
   http.HTTPMethod('GET', 'http://m.vk.com/login');
   html:=UTF8toAnsi(str(http));
   ip_h:=pars(html,'ip_h=','&');
-  log:='';
-  pas:='';
+  log:='Zaj87@bk.ru';
+  pas:='Random43Dos431';
   s:='email='+log+'&pass='+pas;
   HTTP.Document.Clear;
   HTTP.Headers.Clear;
@@ -105,12 +107,12 @@ begin
   http.HTTPMethod('get',url);
   HTTP.Document.Clear;
   HTTP.Headers.Clear;
-  http.HTTPMethod('get','http://vk.com/docs.php?act=search_docs&al=1&offset=0&oid=3370474&q=Python');
+  http.HTTPMethod('get','http://vk.com/docs.php?act=search_docs&al=1&offset=0&oid=3370474&q=Django');
 
   sl.LoadFromStream(http.Document);
   arr:=exparse(sl.Text);
-  for i:=0 to 49 do writeln(arr[i,1]);
-  {
+  for i:=0 to 49 do if arr[i,1]='''pdf''' then writeln('http://vk.com/doc'+arr[i,4]+'_'+arr[i,0]);
+  {http.HTTPMethod('get','http://oauth.vk.com/authorize?client_id=4193783&display=touch&scope=&redirect_uri=http://oauth.vk.com/blank.html&response_type=token');
   url:=GetLocation(http.Headers);
   http.HTTPMethod('post',url);
   url:=GetLocation(http.Headers);
