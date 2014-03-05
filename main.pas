@@ -1,12 +1,33 @@
-program Vkbooks;
+unit Unit1;
 
-{$mode delphi}{$H+}
+{$mode objfpc}{$H+}
+
+interface
 
 uses
-
-  httpsend,sysUtils,classes,RegExpr;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+  StdCtrls,HttpSend,Regexpr;
 
 type
+
+  { TForm1 }
+
+  TForm1 = class(TForm)
+    Button1: TButton;
+    Edit1: TEdit;
+    ListBox1: TListBox;
+    Panel1: TPanel;
+    procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure ListBox1DblClick(Sender: TObject);
+  private
+    { private declarations }
+  public
+    { public declarations }
+  end;
+
+
+  type
   TArr=array[0..60,0..8] of string;
 
 type
@@ -14,17 +35,27 @@ type
     private
       sl:TStringList;
       http:THttpSend;
-      function str(http:thttpsend):string;
+      arr:TArr;
+      function str:string;
       function GetLocation(const headers:TStringList):string;
       function pars(text, a, b: string): string;
-      function Exparse(S:string):Tarr;
+      procedure Exparse(S:string);
     public
       procedure Find(S:string);
       constructor Create(login:string;password:string);
 
   end;
 
-  function TVk.str(http:thttpsend):string;
+var
+  Form1: TForm1;
+
+implementation
+
+  { TForm1 }
+
+{$R *.lfm}
+
+  function TVk.str:string;
     var
      t:tstringlist;
     begin
@@ -63,7 +94,7 @@ var
 begin
   http:=THTTPSend.Create;
   http.HTTPMethod('GET', 'http://m.vk.com/login');
-  html:=UTF8toAnsi(str(http));
+  html:=UTF8toAnsi(str);
   ip_h:=pars(html,'ip_h=','&');
   s:='email='+login+'&pass='+password;
   HTTP.Document.Clear;
@@ -80,10 +111,9 @@ begin
   HTTP.Headers.Clear;
 end;
 
-function TVk.Exparse(S:string):Tarr;
+procedure TVk.Exparse(S:string);
 var
  reg1,reg:TRegexpr;
- a:Tarr;
  i,j:integer;
 begin
 reg:=TRegexpr.Create;
@@ -97,31 +127,49 @@ if Reg.Exec(s) then
       if reg1.Exec(Reg.Match[0]) then begin
       j:=0;
     repeat
-      a[i,j]:=Reg1.Match[0];
+      self.arr[i,j]:=Reg1.Match[0];
       inc(j);
     until not Reg1.ExecNext;
       end;
     inc(i);
     until not Reg.ExecNext;
 end;
-Result:=a;
 end;
 
 procedure TVK.Find(S:String);
 var
  i:integer;
- arr:Tarr;
 begin
   http.HTTPMethod('get','http://vk.com/docs.php?act=search_docs&al=1&offset=0&oid=3370474&q='+S);
   sl.LoadFromStream(http.Document);
-  arr:=exparse(sl.Text);
-  for i:=0 to 49 do if arr[i,1]='''pdf''' then writeln(arr[i,2]+' '+'http://vk.com/doc'+arr[i,4]+'_'+arr[i,0]);
+  exparse(sl.Text);
+  for i:=0 to 49 do if (arr[i,1]='''pdf''') then form1.ListBox1.Items.Add(arr[i,2]);
+end;
+
+var
+  VK:TVk;
+  procedure TForm1.Button1Click(Sender: TObject);
+  begin
+  if edit1.Text<>'' then vk.Find(edit1.Text);
+  end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  Vk:=TVk.Create('login','pass');
+end;
+
+procedure TForm1.ListBox1DblClick(Sender: TObject);
+var
+  url:string;
+  FS:TStringList;
+begin
+  FS:=TStringList.Create;
+  showmessage(vk.arr[listbox1.ItemIndex,0]+' '+vk.arr[listbox1.ItemIndex,1]+' '+vk.arr[listbox1.ItemIndex,2]);
+  //showmessage('http://vk.com/doc-'+vk.arr[listbox1.ItemIndex,4]+'_'+vk.arr[listbox1.ItemIndex,0]);
+  //vk.http.HTTPMethod('get',url);
+  //vk.http.Document.SaveToFile('2.pdf');
 end;
 
 
-var
- Vk:TVK;
-begin
- Vk:=TVk.Create('abc@def.gh','abc');
- vk.Find('Java');
+
 end.
