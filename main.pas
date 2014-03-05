@@ -157,7 +157,7 @@ var
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  Vk:=TVk.Create('Zaj87@bk.ru','Random43Dos431');
+  Vk:=TVk.Create('','');
   listbox1.ItemHeight:=50;
 end;
 
