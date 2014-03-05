@@ -20,6 +20,7 @@ type
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ListBox1DblClick(Sender: TObject);
+    procedure Panel1Click(Sender: TObject);
   private
     { private declarations }
   public
@@ -143,31 +144,52 @@ begin
   http.HTTPMethod('get','http://vk.com/docs.php?act=search_docs&al=1&offset=0&oid=3370474&q='+S);
   sl.LoadFromStream(http.Document);
   exparse(sl.Text);
-  for i:=0 to 49 do if (arr[i,1]='''pdf''') then form1.ListBox1.Items.Add(arr[i,2]);
+  for i:=0 to 49 do form1.ListBox1.Items.Add(arr[i,2]);
 end;
 
 var
   VK:TVk;
   procedure TForm1.Button1Click(Sender: TObject);
   begin
+  listbox1.Clear;
   if edit1.Text<>'' then vk.Find(edit1.Text);
   end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  Vk:=TVk.Create('login','pass');
+  Vk:=TVk.Create('Zaj87@bk.ru','Random43Dos431');
+  listbox1.ItemHeight:=50;
 end;
 
 procedure TForm1.ListBox1DblClick(Sender: TObject);
 var
   url:string;
-  FS:TStringList;
+  FS:TFileStream;
+  SL:TStringList;
+  regex:Tregexpr;
 begin
-  FS:=TStringList.Create;
-  showmessage(vk.arr[listbox1.ItemIndex,0]+' '+vk.arr[listbox1.ItemIndex,1]+' '+vk.arr[listbox1.ItemIndex,2]);
-  //showmessage('http://vk.com/doc-'+vk.arr[listbox1.ItemIndex,4]+'_'+vk.arr[listbox1.ItemIndex,0]);
-  //vk.http.HTTPMethod('get',url);
-  //vk.http.Document.SaveToFile('2.pdf');
+
+  regex:=TRegexpr.Create;
+  sl:=TStringList.Create;
+  regex.Expression:='var src = \''(.*?)\'';';
+  FS:=TFileStream.Create('do.pdf',fmCreate);
+  vk.http.Clear;
+  url:='http://vk.com/doc-'+vk.arr[listbox1.ItemIndex,4]+'_'+vk.arr[listbox1.ItemIndex,0];
+  vk.http.HTTPMethod('get',url);
+  sl.LoadFromStream(vk.http.Document);
+  if regex.Exec(sl.Text) then begin
+  vk.http.MimeType:='application/pdf';
+    if vk.http.HTTPMethod('get',regex.Match[1]) then
+       vk.http.Document.SaveToStream(fs);
+  end;
+  regex.Free;
+  sl.Free;
+  fs.Free;
+end;
+
+procedure TForm1.Panel1Click(Sender: TObject);
+begin
+
 end;
 
 
