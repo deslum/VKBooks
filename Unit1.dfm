@@ -42,11 +42,6 @@ object Form1: TForm1
       Height = 420
       Style = lbOwnerDrawFixed
       ItemHeight = 30
-      Items.Strings = (
-        '1'
-        '2'
-        '3'
-        '4')
       TabOrder = 1
     end
     object BitBtn1: TBitBtn
@@ -55,6 +50,7 @@ object Form1: TForm1
       Width = 47
       Height = 33
       TabOrder = 2
+      OnClick = BitBtn1Click
     end
   end
   object MainMenu1: TMainMenu
