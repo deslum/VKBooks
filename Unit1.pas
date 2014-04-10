@@ -72,7 +72,7 @@ var
   Dibujo: TIcon;
 begin
   Listbox1.Clear;
-  Vk:=TVk.Create('79166935403','Random43Dos4316');
+  Vk:=TVk.Create(login,password);
   Vk.Find(edit1.Text);
   for i := 0 to 48 do
   begin
