@@ -26,7 +26,7 @@ object Form1: TForm1
       Left = 5
       Top = 5
       Width = 281
-      Height = 41
+      Height = 33
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -21
@@ -43,6 +43,7 @@ object Form1: TForm1
       Style = lbOwnerDrawFixed
       ItemHeight = 50
       TabOrder = 1
+      OnDblClick = ListBox1DblClick
       OnDrawItem = ListBox1DrawItem
     end
     object BitBtn1: TBitBtn

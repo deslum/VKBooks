@@ -23,8 +23,8 @@ type
     public
       arr:TArr;
       procedure Find(S:string);
+      procedure Download(Index:Integer);
       constructor Create(login:string;password:string);
-
   end;
 
 
@@ -42,8 +42,8 @@ end;
 
 constructor TVK.Create(login:string;password:string);
 var
- s:TStringList;
- html,ip_h:string;
+  s:TStringList;
+  html,ip_h:string;
 begin
   s:=TStringList.Create;
   s.Add('email='+login);
@@ -60,19 +60,42 @@ begin
   FreeAndNil(s);
 end;
 
+procedure TVK.Download(Index:Integer);
+var
+  url:string;
+  FS:TStream;
+  Text:String;
+  regex:Tregex;
+begin
+  regex:=TRegex.Create('var src = \''(.*?)\'';');
+  FS:=TFileStream.Create('do.pdf',fmCreate);
+  http.Request.Clear;
+  url:='http://vk.com/doc-'+arr[Index,4]+'_'+arr[Index,0];
+  try
+    Text:=http.Get(url);
+    if regex.IsMatch(Text) then begin
+    http.Request.CustomHeaders.Add('MimeType: application/pdf');
+    http.Get(regex.Match(Text).Value,FS);
+  end;
+  finally
+    fs.Free;
+  end;
+end;
+
 
 procedure TVk.Exparse(S:string);
 var
- reg1,reg:TRegex;
- i,j:integer;
- M1,M2:TMatchCollection;
+  reg1,reg:TRegex;
+  i,j:integer;
+  M1,M2:TMatchCollection;
 begin
 Reg:=TRegex.Create('\[(.*?)\]');
 Reg1:=TRegex.Create('\''(.*?)\''|[0-9]+');
 if Reg.IsMatch(S) then
   begin
     M1:=reg.Matches(S);
-    for i := 0 to M1.Count-1 do begin
+    for i := 0 to M1.Count-1 do
+    begin
       M2:=reg1.Matches(M1.Item[i].Value);
       for j := 0 to M2.Count-1 do
         arr[i,j]:=m2.Item[j].Value;
@@ -97,46 +120,11 @@ end;
 
 procedure TVK.Find(S:String);
 var
- i:integer;
- text:String;
+  i:integer;
+  text:String;
 begin
   s:=Urlencode(ansitoutf8(s));
   text:=http.get('http://vk.com/docs.php?act=search_docs&al=1&offset=0&oid=3370474&q='+S);
   exparse(text);
 end;
-
-{
-procedure TForm1.ListBox1DblClick(Sender: TObject);
-var
-  url:string;
-  FS:TFileStream;
-  SL:TStringList;
-  regex:Tregexpr;
-begin
-
-  regex:=TRegexpr.Create;
-  sl:=TStringList.Create;
-  regex.Expression:='var src = \''(.*?)\'';';
-  FS:=TFileStream.Create('do.pdf',fmCreate);
-  vk.http.Clear;
-  url:='http://vk.com/doc-'+vk.arr[listbox1.ItemIndex,4]+'_'+vk.arr[listbox1.ItemIndex,0];
-  vk.http.HTTPMethod('get',url);
-  sl.LoadFromStream(vk.http.Document);
-  if regex.Exec(sl.Text) then begin
-  vk.http.MimeType:='application/pdf';
-    if vk.http.HTTPMethod('get',regex.Match[1]) then
-       vk.http.Document.SaveToStream(fs);
-  end;
-  regex.Free;
-  sl.Free;
-  fs.Free;
-end;
-
-procedure TForm1.Panel1Click(Sender: TObject);
-begin
-
-end;
-}
-
-
 end.
