@@ -81,7 +81,7 @@ var
   Dibujo: TIcon;
 begin
   Listbox1.Clear;
-  Vk:=TVk.Create('Zaj87@bk.ru','Random43Dos431');
+  Vk:=TVk.Create(Login,Password);
   Vk.Find(edit1.Text);
   for i := 0 to length(vk.arr)-1 do
   begin
