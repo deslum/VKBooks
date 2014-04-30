@@ -25,6 +25,7 @@ type
       Rect: TRect; State: TOwnerDrawState);
     procedure ListBox1DblClick(Sender: TObject);
     procedure N5Click(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -38,6 +39,14 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Unit2;
+
+procedure TForm1.FormActivate(Sender: TObject);
+begin
+  form2.Show;
+  form1.Hide;
+end;
 
 procedure TForm1.ListBox1DblClick(Sender: TObject);
 begin
