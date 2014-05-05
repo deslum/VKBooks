@@ -18,29 +18,29 @@ type
     private
       sl:TStringList;
       http:TidHttp;
-      function pars(text, a, b: string): string;
-      procedure Exparse(S:string);
+      function pars(text, a, b: string): String;
+      procedure Exparse(S:String);
     public
       arr:TArr;
-      procedure Find(S:string);
+      procedure Find(S:String);
       procedure Download(Index:Integer);
-      constructor Create(login:string;password:string);
+      constructor Create(login:String;password:String);
   end;
 
 
 implementation
 
-function TVk.pars(text, a, b: string): string;
+function TVk.pars(text, a, b: String): String;
 var
-  temp:string;
+  Temp:String;
 begin
-  temp:=copy(text,pos(a,text)+length(a),length(text)  -(pos(a,text)+length(a)-1));
-  pars:=copy(temp,1,pos(b,temp)-1);
+  Temp:=Copy(Text,Pos(a,Text)+length(a),length(Text)  -(pos(a,Text)+length(a)-1));
+  Pars:=Copy(Temp,1,Pos(b,Temp)-1);
 end;
 
 
 
-constructor TVK.Create(login:string;password:string);
+constructor TVK.Create(login:String;password:String);
 var
   s:TStringList;
   html,ip_h:string;
