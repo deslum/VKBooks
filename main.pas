@@ -18,19 +18,19 @@ type
     private
       sl:TStringList;
       http:TidHttp;
-      function pars(text, a, b: string): String;
+      function Pars(Text, a, b: string): String;
       procedure Exparse(S:String);
     public
       arr:TArr;
       procedure Find(S:String);
       procedure Download(Index:Integer);
-      constructor Create(login:String;password:String);
+      constructor Create(Login:String;Password:String);
   end;
 
 
 implementation
 
-function TVk.pars(text, a, b: String): String;
+function TVk.pars(Text, a, b: String): String;
 var
   Temp:String;
 begin
