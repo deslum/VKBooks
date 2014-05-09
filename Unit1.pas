@@ -85,7 +85,7 @@ begin
   Vk.Find(edit1.Text);
   for i := 0 to length(vk.arr)-1 do
   begin
-    Dibujo := TIcon.create;
+    Dibujo := TIcon.Create;
     if (Vk.arr[i,1]=#039+'pdf'+#039) then
     begin
       Dibujo.LoadFromFile('pdf.ico');
