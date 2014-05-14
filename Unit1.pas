@@ -44,13 +44,13 @@ uses Unit2;
 
 procedure TForm1.FormActivate(Sender: TObject);
 begin
-  form2.Show;
-  form1.Hide;
+  Form2.Show;
+  Form1.Hide;
 end;
 
 procedure TForm1.ListBox1DblClick(Sender: TObject);
 begin
-  Vk.Download(listbox1.ItemIndex);
+  Vk.Download(ListBox1.ItemIndex);
 end;
 
 procedure TForm1.ListBox1DrawItem(Control: TWinControl; Index: Integer;
@@ -82,7 +82,7 @@ var
 begin
   Listbox1.Clear;
   Vk:=TVk.Create(Login,Password);
-  Vk.Find(edit1.Text);
+  Vk.Find(Edit1.Text);
   for i := 0 to length(vk.arr)-1 do
   begin
     Dibujo := TIcon.Create;
