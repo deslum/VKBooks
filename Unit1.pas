@@ -66,9 +66,8 @@ begin
     Icon := TIcon((Control as TListBox).Items.Objects[Index]);
     if Icon <> nil then
     begin
-      Draw(Rect.Left + 1, Rect.Top + 2, TIcon((Control as
-      TListBox).Items.Objects[Index]));
-      Offset := Icon.width + 9;
+      Draw(Rect.Left + 1, Rect.Top + 2, TIcon((Control as TListBox).Items.Objects[Index]));
+      Offset := Icon.Width + 9;
     end;
     TextOut(Rect.Left + Offset, Rect.Top + 7, (Control as TListBox).Items[Index])
   end;
